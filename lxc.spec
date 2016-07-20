@@ -133,18 +133,9 @@ fi
 %{_bindir}/%{name}-*
 %{_mandir}/man1/%{name}*
 %{_mandir}/*/man1/%{name}*
-# in lxc-libs:
-%exclude %{_bindir}/%{name}-autostart
-%exclude %{_mandir}/man1/%{name}-autostart*
-%exclude %{_mandir}/*/man1/%{name}-autostart*
-%exclude %{_mandir}/man1/%{name}-user-nic*
-%exclude %{_mandir}/*/man1/%{name}-user-nic*
 %{_datadir}/%{name}/%{name}.functions
 %dir %{_sysconfdir}/bash_completion.d
 %{_sysconfdir}/bash_completion.d/%{name}
-
-
-%files libs
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/templates
 %dir %{_datadir}/%{name}/config
@@ -154,7 +145,6 @@ fi
 %{_libdir}/liblxc.so.*
 %{_libdir}/%{name}
 %{_libexecdir}/%{name}
-# fixme: should be in libexecdir?
 %{_sbindir}/init.%{name}
 %{_bindir}/%{name}-autostart
 %{_sharedstatedir}/%{name}
@@ -175,8 +165,6 @@ fi
 %{_sysconfdir}/rc.d/init.d/%{name}
 %{_sysconfdir}/rc.d/init.d/%{name}-net
 %dir %{_localstatedir}/cache/%{name}
-
-%files templates
 %{_datadir}/%{name}/templates/lxc-*
 %{_datadir}/%{name}/config/*
 
