@@ -88,17 +88,17 @@ diff -up shadow-4.2.1/src/lastlog.c.unexpire shadow-4.2.1/src/lastlog.c
 +#endif
 +		strcpy (ll.ll_line, "lastlog");
 +#ifdef WITH_AUDIT
-+		audit_logger (AUDIT_ACCT_UNLOCK, Prog,
-+			"clearing-lastlog",
-+			pw->pw_name, (unsigned int) pw->pw_uid, SHADOW_AUDIT_SUCCESS);
++	// 	audit_logger (AUDIT_ACCT_UNLOCK, Prog,
++	// 		"clearing-lastlog",
++	// 		pw->pw_name, (unsigned int) pw->pw_uid, SHADOW_AUDIT_SUCCESS);
 +#endif
 +	}
 +#ifdef WITH_AUDIT
-+	else {
-+		audit_logger (AUDIT_ACCT_UNLOCK, Prog,
-+			"refreshing-lastlog",
-+			pw->pw_name, (unsigned int) pw->pw_uid, SHADOW_AUDIT_SUCCESS);
-+	}
++	// else {
++	// 	audit_logger (AUDIT_ACCT_UNLOCK, Prog,
++	// 		"refreshing-lastlog",
++	// 		pw->pw_name, (unsigned int) pw->pw_uid, SHADOW_AUDIT_SUCCESS);
++	// }
 +#endif
 +
 +	if (fwrite (&ll, sizeof(ll), 1, lastlogfile) != 1) {

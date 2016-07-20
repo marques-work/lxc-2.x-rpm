@@ -10,7 +10,7 @@ echo "installing build tools"
 time sudo yum -y groupinstall 'Development Tools'
 
 echo "installing build deps"
-time sudo yum -y install libselinux-devel audit-libs-devel libsemanage-devel libacl-devel libattr-devel bison flex gnome-doc-utils
+time sudo yum -y install wget libselinux-devel audit-libs-devel libsemanage-devel libacl-devel libattr-devel bison flex gnome-doc-utils
 
 echo "configuring rpmbuild"
 echo "%_topdir    $WORKING_DIR/rpmbuild" > $HOME/.rpmmacros
