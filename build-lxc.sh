@@ -10,7 +10,7 @@ echo "installing build tools"
 time sudo yum -y groupinstall 'Development Tools'
 
 echo "installing build deps"
-time sudo yum -y install wget libselinux-devel libcap-devel
+time sudo yum -y install wget libselinux-devel libcap-devel docbook2X
 
 echo "configuring rpmbuild"
 echo "%_topdir    $WORKING_DIR/rpmbuild" > $HOME/.rpmmacros

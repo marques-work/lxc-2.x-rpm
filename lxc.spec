@@ -89,6 +89,7 @@ This package contains documentation for %{name}.
 %configure --enable-doc \
            --docdir=%{_pkgdocdir} \
            --enable-selinux \
+           --enable-seccomp \
            --with-init-script=sysvinit
 
 make
