@@ -7,7 +7,7 @@ time sudo yum -y install libselinux-devel audit-libs-devel libsemanage-devel lib
 
 echo "gathering sources"
 cp shadow-utils/* rpmbuild/SOURCES/
-mv rpmbuild/SOURCES/shadow-utils.spec rpmbuild/SPECS/
+cp shadow-utils.spec rpmbuild/SPECS/
 
 if [ ! -f rpmbuild/SOURCES/shadow-$SHADOW_VERSION.tar.xz ]; then
   (cd rpmbuild/SOURCES && wget http://pkg-shadow.alioth.debian.org/releases/shadow-$SHADOW_VERSION.tar.xz)
