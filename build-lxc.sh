@@ -1,23 +1,9 @@
 #!/bin/bash
 
 LXC_BUILD_VERSION="2.0.3"
-WORKING_DIR=$(pwd)
-
-echo "updating yum"
-time sudo yum -y update
-
-echo "installing build tools"
-time sudo yum -y groupinstall 'Development Tools'
 
 echo "installing build deps"
-time sudo yum -y install wget libselinux-devel libcap-devel docbook2X
-
-echo "configuring rpmbuild"
-echo "%_topdir    $WORKING_DIR/rpmbuild" > $HOME/.rpmmacros
-
-echo "scaffolding rpmbuild tree"
-mkdir -p rpmbuild
-(cd rpmbuild && mkdir -p SPECS SOURCES BUILD BUILDROOT RPMS SRPMS)
+time sudo yum -y install libselinux-devel libcap-devel docbook2X
 
 echo "gathering sources"
 cp lxc.spec rpmbuild/SPECS
