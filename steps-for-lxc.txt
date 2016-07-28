@@ -1,0 +1,38 @@
+echo 'USE_LXC_BRIDGE="true"' > /etc/default/lxc-net
+
+sudo yum -y install iptables dnsmasq shadow-utils libseccomp lxc libcgroup-pam
+
+sudo service cgconfig start
+sudo chkconfig cgconfig on
+
+sudo service cgred start
+sudo chkconfig cgred on
+
+sudo modprobe overlay
+sudo modprobe nf_nat
+
+cat <<-EOF | sudo tee /etc/sysconfig/modules/overlay.modules
+#!/bin/sh
+exec /sbin/modprobe overlay >/dev/null 2>&1
+EOF
+
+sudo chmod /etc/sysconfig/modules/overlay.modules 755
+
+sudo touch /etc/subuid
+sudo touch /etc/subgid
+sudo usermod --add-subuids 100000-165536 $USER
+sudo usermod --add-subgids 100000-165536 $USER
+sudo chmod +x $HOME
+
+mkdir -p $HOME/.config/lxc
+cat <<-EOF > $HOME/.config/lxc/default.conf
+lxc.network.type = veth
+lxc.network.link = lxcbr0
+lxc.network.flags = up
+lxc.network.hwaddr = 00:16:3e:xx:xx:xx
+lxc.id_map = u 0 100000 65536
+lxc.id_map = g 0 100000 65536
+EOF
+
+echo "$USER veth lxcbr0 10" | sudo tee -a /etc/lxc/lxc-usernet > /dev/null
+

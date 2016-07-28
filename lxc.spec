@@ -19,49 +19,18 @@ BuildRequires:  autoconf automake
 Linux Resource Containers provide process and resource isolation without the
 overhead of full virtualization.
 
-
-%package        libs
-Summary:        Runtime library files for %{name}
-Group:          System Environment/Libraries
-
 # rsync is called in bdev.c, e.g. by lxc-clone
 Requires:       rsync
+Requires:       iptables
+Requires:       dnsmasq
 Requires(post): chkconfig
 Requires(preun): initscripts, chkconfig
 Requires(postun): initscripts
 
-
-%description    libs
-Linux Resource Containers provide process and resource isolation without the
-overhead of full virtualization.
-
-The %{name}-libs package contains libraries for running %{name} applications.
-
-%package        templates
-Summary:        Templates for %{name}
-Group:          System Environment/Libraries
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
-# Note: Requirements for the template scripts (busybox, dpkg,
-# debootstrap, rsync, openssh-server, dhclient, apt, pacman, zypper,
-# ubuntu-cloudimg-query etc...) are not explicitly mentioned here:
-# their presence varies wildly on supported Fedora/EPEL releases and
-# archs, and they are in most cases needed for a single template
-# only. Also, the templates normally fail graciously when such a tool
-# is missing. Moving each template to its own subpackage on the other
-# hand would be overkill.
-
-
-%description    templates
-Linux Resource Containers provide process and resource isolation without the
-overhead of full virtualization.
-
-The %{name}-templates package contains templates for creating containers.
-
-
 %package        devel
 Summary:        Development files for %{name}
 Group:          Development/Libraries
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       pkgconfig
 
 %description    devel
@@ -109,12 +78,18 @@ mkdir -p %{buildroot}%{_localstatedir}/cache/%{name}
 make check
 
 
-%post libs
+%post
 /sbin/ldconfig
 /sbin/chkconfig --add %{name}-net
 /sbin/chkconfig --add %{name}
+/sbin/chkconfig %{name} off
+/sbin/chkconfig %{name}-net on
+/sbin/chkconfig %{name} off
+/sbin/chkconfig %{name}-net on
+/sbin/service %{name} stop
+/sbin/service %{name}-net start
 
-%preun libs
+%preun
 if [ $1 -eq 0 ]; then
         /sbin/service %{name}-net stop > /dev/null 2>&1
         /sbin/chkconfig --del %{name}-net
@@ -122,8 +97,6 @@ if [ $1 -eq 0 ]; then
         /sbin/chkconfig --del %{name}
 fi
 
-
-%postun libs
 /sbin/ldconfig
 if [ $1 -ge 1 ]; then
         /sbin/service %{name}-net condrestart > /dev/null 2>&1 || :
